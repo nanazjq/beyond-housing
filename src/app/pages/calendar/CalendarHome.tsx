@@ -217,6 +217,7 @@ function CalendarGeoBg() {
 
 export default function CalendarHome() {
   const [selected, setSelected] = useState<number | null>(10);
+  const [monthIndex, setMonthIndex] = useState(2); // December
   const dayEvents = selected ? (CALENDAR_EVENTS[selected] ?? []) : [];
 
   return (
