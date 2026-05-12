@@ -20,9 +20,16 @@ const CALENDAR_EVENTS: Record<number, CalEvent[]> = {
   31: [{ type: "activity", label: "New Year's Eve",       time: "21:00" }],
 };
 
-const MONTH_OFFSET = 5; // Dec 2026
-const MONTH_DAYS   = 31;
-const MONTH_NAME   = "December 2026";
+const MONTHS = [
+  { name: "October 2026",  days: 31, offset: 3, todayDay: null },
+  { name: "November 2026", days: 30, offset: 6, todayDay: null },
+  { name: "December 2026", days: 31, offset: 5, todayDay: 10  },
+  { name: "January 2027",  days: 31, offset: 4, todayDay: null },
+  { name: "February 2027", days: 28, offset: 0, todayDay: null },
+];
+const EVENTS_BY_MONTH: Record<number, Record<number, { type: "kitchen"|"activity"; label: string; time?: string; location?: string; path?: string }[]>> = {
+  2: CALENDAR_EVENTS, // December (index 2)
+};
 const DAY_LABELS   = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
 /* ─── Icons ──────────────────────────────────────────────── */
@@ -64,10 +71,11 @@ function CalendarNavIcon({ color, dir, size = 18 }: { color: string; dir: "left"
 }
 
 /* ─── Calendar Grid ──────────────────────────────────────── */
-function CalendarGrid({ selected, onSelect }: { selected: number | null; onSelect: (d: number) => void }) {
+function CalendarGrid({ selected, onSelect, monthIndex }: { selected: number | null; onSelect: (d: number) => void; monthIndex: number }) {
+  const month = MONTHS[monthIndex];
   const cells: (number | null)[] = [
-    ...Array(MONTH_OFFSET).fill(null),
-    ...Array.from({ length: MONTH_DAYS }, (_, i) => i + 1),
+    ...Array(month.offset).fill(null),
+    ...Array.from({ length: month.days }, (_, i) => i + 1),
   ];
   while (cells.length % 7 !== 0) cells.push(null);
 
@@ -82,11 +90,11 @@ function CalendarGrid({ selected, onSelect }: { selected: number | null; onSelec
       {/* Date cells */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3 }}>
         {cells.map((day, i) => {
-          const events   = day ? (CALENDAR_EVENTS[day] ?? []) : [];
+          const events   = day ? ((EVENTS_BY_MONTH[monthIndex] ?? {})[day] ?? []) : [];
           const hasKit   = events.some(e => e.type === "kitchen");
           const hasAct   = events.some(e => e.type === "activity");
           const isSel    = day === selected;
-          const isToday  = day === 10; // demo "today"
+          const isToday  = day === MONTHS[monthIndex].todayDay;
           return (
             <div
               key={i}
@@ -235,11 +243,11 @@ export default function CalendarHome() {
               <p style={{ margin: "4px 0 0", fontSize: 14, color: C.muted, fontFamily: DM_SANS, fontWeight: 500 }}>Your schedule at a glance</p>
             </div>
             <div style={{ display: "flex", gap: 6, marginBottom: 4 }}>
-              <button style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: "white", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "3px 3px 0px rgba(0,0,0,0.10)", cursor: "pointer" }}>
-                <CalendarNavIcon color={C.muted} dir="left" size={18} />
+              <button onClick={() => { setMonthIndex(i => Math.max(0, i-1)); setSelected(null); }} style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: "white", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "3px 3px 0px rgba(0,0,0,0.10)", cursor: "pointer" }}>
+                <CalendarNavIcon color={monthIndex > 0 ? C.green : C.muted} dir="left" size={18} />
               </button>
-              <button style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: "white", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "3px 3px 0px rgba(0,0,0,0.10)", cursor: "pointer" }}>
-                <CalendarNavIcon color={C.muted} dir="right" size={18} />
+              <button onClick={() => { setMonthIndex(i => Math.min(MONTHS.length-1, i+1)); setSelected(null); }} style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: "white", border: "none", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "3px 3px 0px rgba(0,0,0,0.10)", cursor: "pointer" }}>
+                <CalendarNavIcon color={monthIndex < MONTHS.length-1 ? C.green : C.muted} dir="right" size={18} />
               </button>
             </div>
           </div>
@@ -251,14 +259,14 @@ export default function CalendarHome() {
           <div style={{ backgroundColor: C.card,
             border: "1px solid rgba(0,0,0,0.06)", borderRadius: 22, padding: "18px 16px 14px", boxShadow: "3px 3px 0px rgba(0,0,0,0.10)", position: "relative", overflow: "hidden" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-              <span style={{ fontSize: 17, fontFamily: LONDRINA, color: C.strong }}>{MONTH_NAME}</span>
+              <span style={{ fontSize: 17, fontFamily: LONDRINA, color: C.strong }}>{MONTHS[monthIndex].name}</span>
               {selected && (
                 <span style={{ fontSize: 14, color: C.green, fontFamily: DM_SANS, fontWeight: 700, backgroundColor: `${C.green}15`, borderRadius: 99, padding: "3px 10px" }}>
-                  Dec {selected}
+                  {MONTHS[monthIndex].name.split(" ")[0]} {selected}
                 </span>
               )}
             </div>
-            <CalendarGrid selected={selected} onSelect={setSelected} />
+            <CalendarGrid selected={selected} onSelect={setSelected} monthIndex={monthIndex} />
             <DotLegend />
           </div>
         </div>
@@ -267,7 +275,7 @@ export default function CalendarHome() {
         <div style={{ flex: 1, overflowY: "auto", padding: "18px 24px 100px", scrollbarWidth: "none" } as React.CSSProperties}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
             <span style={{ fontSize: 13, color: C.muted, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: DM_SANS }}>
-              {selected ? `Daily Agenda · Dec ${selected}` : "Daily Agenda"}
+              {selected ? `Daily Agenda · ${MONTHS[monthIndex].name.split(" ")[0]} ${selected}` : "Daily Agenda"}
             </span>
             <span style={{ fontSize: 13, color: C.green, fontFamily: DM_SANS, fontWeight: 700 }}>
               {dayEvents.length} {dayEvents.length === 1 ? "item" : "items"}

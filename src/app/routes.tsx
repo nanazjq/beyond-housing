@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 
 /* ── Onboarding ──────────────────────────────────────────── */
 import SplashScreen from "./pages/SplashScreen";
@@ -48,7 +48,7 @@ import EditProfile              from "./pages/profile/EditProfile";
 /* ── Profile ─────────────────────────────────────────────── */
 import ProfileHome from "./pages/profile/ProfileHome";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   /* ── Onboarding routes ── */
   { path: "/",            Component: SplashScreen  },
   { path: "/intro",       Component: IntroPage     },

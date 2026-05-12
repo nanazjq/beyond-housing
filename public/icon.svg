@@ -1,0 +1,26 @@
+<svg width="119" height="119" viewBox="0 0 119 119" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_g_1833_6233)">
+<path d="M76.3228 30.3918C78.6152 29.5959 81.0081 31.2981 81.0081 33.7247V58.3108C81.0081 58.7091 80.6786 59.0285 80.2804 59.016L8.63556 56.7804C7.07043 56.7316 6.73745 54.5502 8.21673 54.0367L76.3228 30.3918Z" fill="#559A6E"/>
+</g>
+<g filter="url(#filter1_g_1833_6233)">
+<path d="M88.1824 90.8081C85.8991 91.564 83.5454 89.8639 83.5454 87.4587V63.2591C83.5454 62.7098 84.1453 62.3712 84.6156 62.655L109.438 77.6375C112.018 79.1947 111.584 83.0604 108.724 84.0074L88.1824 90.8081Z" fill="#559A6E"/>
+</g>
+<path d="M83.4531 33.6432C83.4531 30.8151 86.6139 29.1364 88.957 30.7202L111.219 45.7675C112.19 46.4236 112.771 47.5188 112.771 48.6905V69.9414C112.771 72.6716 109.804 74.3672 107.452 72.9807L83.8004 59.0381C83.5852 58.9112 83.4531 58.68 83.4531 58.4302V33.6432Z" fill="#DB7790"/>
+<path d="M10.0283 58.9826L80.3262 61.3898C80.7063 61.4028 81.0078 61.7156 81.0078 62.0959V87.2336C81.0078 89.2367 79.3415 90.838 77.3398 90.7589L63.6836 90.2189V70.1203L51.6895 71.8527V89.7453L9.76855 88.089C7.87574 88.0142 6.37896 86.4579 6.37891 84.5636V62.5089C6.37891 60.5131 8.03362 58.9143 10.0283 58.9826Z" fill="#5D89E0"/>
+<defs>
+<filter id="filter0_g_1833_6233" x="6.31149" y="29.2378" width="75.6524" height="30.7349" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="0.999" numOctaves="3" seed="1501"/>
+<feDisplacementMap in="shape" scale="1.912" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%"/>
+<feMerge><feMergeNode in="displacedImage"/></feMerge>
+</filter>
+<filter id="filter1_g_1833_6233" x="82.5888" y="61.5962" width="29.5098" height="30.3497" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="0.999" numOctaves="3" seed="1501"/>
+<feDisplacementMap in="shape" scale="1.912" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%"/>
+<feMerge><feMergeNode in="displacedImage"/></feMerge>
+</filter>
+</defs>
+</svg>
